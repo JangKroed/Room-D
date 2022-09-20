@@ -18,8 +18,6 @@ db = client.dbsparta_plus_week1
 
 @app.route('/')
 def home():
-    token_receive = request.cookies.get('mytoken')
-
     return render_template('index.html')
 
 # @app.route('/')
