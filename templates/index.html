@@ -17,26 +17,33 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap" rel="stylesheet">
+<!--    스타일 시트 파일 연결-->
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<!--    자바 스크립트 파일 연결-->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
     <script>
+        // 화면 로딩시 실행할 것
         $(document).ready(function () {
+            // 쿠키를 가지고 있지 않으면
             if (!document.cookie){
+                // 로그아웃 버튼 숨기는 클래스 추가
                 $("#logout").toggleClass("is-hidden")
             } else {
+                // 쿠키가 있을 때, 로그인 버튼 숨기는 클래스 추가
                 $("#login").toggleClass("is-hidden")
             }
             })
-
+// 로그인버튼에 들어가는 함수, 로그인 페이지로 이동
         function loginBtn(){
             window.location.href = "/login"
         }
-
+// 로그아웃 버튼에 들어가는 함수
+        // 클릭시 메인페이지 이동, 토큰지우기
         function logoutBtn() {
                 $.removeCookie('mytoken', {path: '/'});
                 alert('로그아웃!')
@@ -49,7 +56,9 @@
 </head>
 <body>
 <div id="login-box">
+<!--    로그아웃 버튼-->
     <a id="logout" onclick="logoutBtn()">로그아웃</a>
+<!--    로그인 버튼-->
     <a id="login" onclick="loginBtn()">로그인</a>
 </div>
 </body>

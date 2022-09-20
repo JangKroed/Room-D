@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <!-- Webpage Title -->
-    <title>Home | Room-D</title>
+    <title>login | Room-D</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 
@@ -17,16 +17,16 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap" rel="stylesheet">
+<!--    스타일 시트 파일 연결-->
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<!--    자바 스크립트 파일 연결-->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
     <style>
-
-
         .title {
             font-weight: 800;
             font-size: 5rem;
@@ -47,7 +47,7 @@
         // {% if msg %}
         //    alert("{{ msg }}")
         // {% endif %}
-
+// 숨기는 클래스 추가해주는 함수
         function toggle_sign_up() {
             $("#sign-up-box").toggleClass("is-hidden")
             $("#div-sign-in-or-up").toggleClass("is-hidden")
@@ -56,30 +56,34 @@
             $("#help-password").toggleClass("is-hidden")
             $("#help-password2").toggleClass("is-hidden")
         }
-
+// 닉네임 설정시 가능한 단어, 길이 (2~10)
         function is_nickname(asValue) {
             var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
             return regExp.test(asValue);
         }
-
+// 패스워드 설정시 가능한 단어 (8~20)
         function is_password(asValue) {
             var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
             return regExp.test(asValue);
         }
-
+// 아이디 중복 확인 및 형식 확인 후 피드백해주는 함수
         function check_dup() {
             let username = $("#input-username").val()
             console.log(username)
+            // 아이디가 빈칸이면
             if (username == "") {
                 $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
                 $("#input-username").focus()
                 return;
             }
+            // 닉네임 설정시 가능한 형식이 아닐때
             if (!is_nickname(username)) {
+
                 $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
                 $("#input-username").focus()
                 return;
             }
+            // 중복확인을 위해 서버에 같은 값이있는지 확인
             $("#help-id").addClass("is-loading")
             $.ajax({
                 type: "POST",
