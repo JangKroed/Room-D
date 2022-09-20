@@ -25,9 +25,9 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-                $('#login-box').empty();
-            })
+        // $(document).ready(function () {
+        //         $('#login-box').empty();
+        //     })
 
 
 
@@ -35,9 +35,9 @@
             let loginCheckBtn = ``
             if (document.cookie == null) {
                 $('#login-box').empty();
-                alert('로그인')
                 loginCheckBtn = `<button onclick="loginCheck()">로그인</button>`;
                 window.location.href = '/login';
+                alert('로그인')
             } else {
                 $('#login-box').empty();
                 loginCheckBtn = `<button onclick="loginCheck()">로그아웃</button>`;
