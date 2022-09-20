@@ -25,36 +25,32 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
     <script>
-        // $(document).ready(function () {
-        //         $('#login-box').empty();
-        //     })
+        $(document).ready(function () {
+            if (!document.cookie){
+                $("#logout").toggleClass("is-hidden")
+            } else {
+                $("#login").toggleClass("is-hidden")
+            }
+            })
 
-
-
-        //     let loginCheckBtn = ``
-        // function loginCheck() {
-        //     if (document.cookie == null) {
-        //         $('#login-box').empty();
-        //         loginCheckBtn = `<button onclick="loginCheck()">로그인</button>`;
-        //         window.location.href = '/login';
-        //         alert('로그인')
-        //     } else {
-        //         $('#login-box').empty();
-        //         loginCheckBtn = `<button onclick="loginCheck()">로그아웃</button>`;
-        //         $.removeCookie('mytoken', {path: '/'});
-        //         window.location.href = "/login"
-        //         alert('로그아웃')
-        //     }
-        // }
-        function loginCheck() {
-            let loginCheckBtn = `<button onclick="loginCheck()">로그인</button>`
-            $('#login-box').append(loginCheckBtn)
+        function loginBtn(){
+            window.location.href = "/login"
         }
+
+        function logoutBtn() {
+                $.removeCookie('mytoken', {path: '/'});
+                alert('로그아웃!')
+                window.location.href = "/"
+            $("#help-id").toggleClass("is-hidden")
+            }
+
+
     </script>
 </head>
 <body>
 <div id="login-box">
-    <button onclick="loginCheck()">로그인</button>
+    <a id="logout" onclick="logoutBtn()">로그아웃</a>
+    <a id="login" onclick="loginBtn()">로그인</a>
 </div>
 </body>
 </html>
