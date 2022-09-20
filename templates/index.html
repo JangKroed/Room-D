@@ -25,9 +25,11 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
     <script>
-        // $(document).ready(function () {
-        //         loginCheck()
-        //     })
+        $(document).ready(function () {
+                $('#login-box').empty();
+            })
+
+
 
         function loginCheck() {
             let loginCheckBtn = ``
@@ -48,7 +50,7 @@
     </script>
 </head>
 <body>
-<div class="login-box">
+<div id="login-box">
 <button onclick="loginCheck()">11로그인22</button>
 </div>
 </body>
