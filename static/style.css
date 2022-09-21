@@ -35,28 +35,7 @@ body {
     max-width: 80%;
 }
 
-.mycards {
-    margin: 20px auto 0px auto;
-    width: 95%;
-    max-width: 1200px;
-    font-size: 19px;
 
-}
-.card {
-    margin: auto 40px;
-    border: 1px solid white;
-    box-shadow: none;
-}
-.card > img {
-    border-radius: 15px;
-}
-
-.card-body {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-between;
-}
 
 .box {
     text-align: center;
@@ -75,6 +54,11 @@ body {
 }
 
 #preview {
+            margin: 20px;
+            width: 50%;
+            height: 50%;
+        }
+#preview1 {
             margin: 20px;
             width: 50%;
             height: 50%;

@@ -16,21 +16,28 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.hg1pk.mongodb.net/Clust
 db = client.dbsparta_plus_week1
 
 
-@app.route('/')
-def home():
-    return render_template('index.html')
-
 # @app.route('/')
 # def home():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         user_info = db.users.find_one({"username": payload["id"]})
-#         return render_template('index.html', user_info=user_info)
-#     except jwt.ExpiredSignatureError:
-#         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-#     except jwt.exceptions.DecodeError:
-#         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+#     return render_template('index.html')
+
+
+
+
+
+
+@app.route('/')
+def Home():
+
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        return render_template('index.html', user_info=user_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
 
 # 로그인 비로그인 순서 (라우터)
 # 메인 페이지에서 토근 유무확인x
@@ -102,6 +109,33 @@ def check_dup():
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
 
+# 프로필 수정
+@app.route('/update_profile', methods=['POST'])
+def save_img():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username = payload["id"]
+        name_receive = request.form["name_give"]
+        about_receive = request.form["about_give"]
+        new_doc = {
+            "profile_name": name_receive,
+            "profile_info": about_receive
+        }
+        if 'file_give' in request.files:
+            file = request.files["file_give"]
+            filename = secure_filename(file.filename)
+            extension = filename.split(".")[-1]
+            file_path = f"profile_pics/{username}.{extension}"
+            file.save("./static/"+file_path)
+            new_doc["profile_pic"] = filename
+            new_doc["profile_pic_real"] = file_path
+        db.users.update_one({'username': payload['id']}, {'$set':new_doc})
+        return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
 # 포스팅 하기
 @app.route('/posting', methods=['POST'])
 def posting():
@@ -158,6 +192,50 @@ def get_posts():
         return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
+# 리플 포스팅 하기
+@app.route('/reply', methods=['POST'])
+def rlplyPosting():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.reply.find_one({"username": payload["id"]})
+        comment_receive = request.form["comment_give"]
+        date_receive = request.form["date_give"]
+
+        doc = {
+            "username": user_info["username"],
+            "profile_name": user_info["profile_name"],
+            "profile_pic_real": user_info["profile_pic_real"],
+            "comment": comment_receive,
+            "date": date_receive,
+        }
+        db.reply.insert_one(doc)
+        return jsonify({"result": "success", 'msg': '포스팅 성공'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+# 리플 가져오기
+@app.route("/get_replies", methods=['GET'])
+def get_replies():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username_receive = request.args.get("username_give")
+        if username_receive=="":
+            posts = list(db.reply.find({}).sort("date", -1).limit(20))
+        else:
+            posts = list(db.reply.find({"username":username_receive}).sort("date", -1).limit(20))
+        for post in posts:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+            post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['id']}))
+
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
 
 
 # 좋아요 +1 -1
