@@ -2,6 +2,12 @@ body {
     min-height: 100vh;
 }
 
+.hero.is-link {
+    text-align: center;
+    background-color: #3273dc;
+    color: #fff;
+}
+
 .section {
     padding: 1rem 1.5rem;
     max-width: 750px;
@@ -28,6 +34,70 @@ body {
     width: 600px;
     max-width: 80%;
 }
+
+.mycards {
+    margin: 20px auto 0px auto;
+    width: 95%;
+    max-width: 1200px;
+    font-size: 19px;
+
+}
+.card {
+    margin: auto 40px;
+    border: 1px solid white;
+    box-shadow: none;
+}
+.card > img {
+    border-radius: 15px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.box {
+    text-align: center;
+}
+
+.file-cta {
+    background-color: #0095f6;
+    color: #ffffff;
+    border-color: #0095f6;
+}
+
+.file-label:hover .file-cta {
+    background-color: #4cb3f7;
+    color: #ffffff;
+    border-color: #4cb3f7;
+}
+
+#preview {
+            margin: 20px;
+            width: 50%;
+            height: 50%;
+        }
+
+.textarea {
+    margin-top: 40px;
+    display: block;
+    max-width: 100%;
+    min-width: 100%;
+    padding: calc(0.75em - 1px);
+    resize: vertical;
+}
+
+.file-label {
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    flex-direction: row;
+}
+
 
 input::-webkit-calendar-picker-indicator {
     display: none;
