@@ -10,6 +10,19 @@ $(document).ready(function () {
             }
         })
 
+    $(document).ready(function () {
+
+        // Check for click events on the navbar burger icon
+        $(".navbar-burger").click(function () {
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            $(".navbar-burger").toggleClass("is-active");
+            $(".navbar-menu").toggleClass("is-active");
+
+        });
+    });
+
+
         function loginBtn() {
             window.location.href = "/login"
         }
@@ -190,8 +203,7 @@ function toggle_like(post_id, type) {
                                                                                                                                aria-hidden="true"></i></span>&nbsp;<span
                                                                                 class="like-num">${num2str(count_heart)}</span>
                                                                         </a>
-                                                                        <a class="level-item is-sparta" aria-label="comment" href="/user/${post['username']}">
-                                                                                                <span class="icon is-small"><i class="fa fa-comment-o" src="/static/${post['profile_pic_real']}"aria-hidden="true"></i></span>
+                                                                    
                                                                     </div>
 
                                                                 </nav>

@@ -39,7 +39,7 @@
 
             .card {
                 width: calc(50% - 4px);
-                margin: auto;
+                margin: 50px auto;
                 border: 1px solid white;
                 box-shadow: none;
             }
@@ -101,8 +101,15 @@
                 resize: vertical;
             }
 
-            .input, .textarea {
-                width: 4.5em;
+            {#.input, .textarea {#}
+            {#    width: 4.5em;#}
+            {#}#}
+
+            .card > img {
+                width: 100%;
+                height: auto;
+                align-items: center;
+                max-width: 100%;
             }
 
 
@@ -343,9 +350,7 @@
                                                                                                                                    aria-hidden="true"></i></span>&nbsp;<span
                                                                                     class="like-num">${num2str(count_heart)}</span>
                                                                             </a>
-                                                                            <a class="level-item is-sparta" aria-label="comment" onclick="open_box()">
-                                                                                                    <span class="icon is-small"><i class="fa fa-comment-o" aria-hidden="true"></i></span>
-                                                                            </a>
+
                                                                         </div>
                                                                     </nav>
                                                                 </div>
@@ -358,57 +363,57 @@
                 })
             }
 
-            function get_replies(username) {
-                if (username == undefined) {
-                    username = ""
-                }
-                $("#post-box").empty()
-                $.ajax({
-                    type: "GET",
-                    url: `/get_replies?username_give=${username}`,
-                    data: {},
-                    success: function (response) {
-                        if (response["result"] == "success") {
-                            let posts = response["posts"]
-                            for (let i = 0; i < posts.length; i++) {
-                                let post = posts[i]
-                                let time_post = new Date(post["date"])
-                                let time_before = time2str(time_post)
-
-                                let html_temp = `<div class="box" id="${post["_id"]}">
-                                                    <article class="media">
-                                                        <div class="media-left">
-                                                            <a class="image is-64x64" href="/user/${post['username']}">
-                                                                <img class="is-rounded" src="/static/${post['profile_pic_real']}"
-                                                                     alt="Image">
-                                                            </a>
-                                                        </div>
-                                                        <div class="media-content">
-                                                            <div class="content">
-                                                                <p>
-                                                                    <strong>${post['profile_name']}</strong> <small>@${post['username']}</small> <small>${time_before}</small>
-                                                                    <br>
-                                                                    ${post['comment']}
-                                                                </p>
-                                                            </div>
-                                                            <nav class="level is-mobile">
-                                                                <div class="level-left">
-                                                                    <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post['_id']}', 'heart')">
-                                                                        <span class="icon is-small"><i class="fa ${class_heart}"
-                                                                                                       aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
-                                                                    </a>
-                                                                </div>
-
-                                                            </nav>
-                                                        </div>
-                                                    </article>
-                                                </div>`
-                                $("#post-box").append(html_temp)
-                            }
-                        }
-                    }
-                })
-            }
+            {#function get_replies(username) {#}
+            {#    if (username == undefined) {#}
+            {#        username = ""#}
+            {#    }#}
+            {#    $("#post-box").empty()#}
+            {#    $.ajax({#}
+            {#        type: "GET",#}
+            {#        url: `/get_replies?username_give=${username}`,#}
+            {#        data: {},#}
+            {#        success: function (response) {#}
+            {#            if (response["result"] == "success") {#}
+            {#                let posts = response["posts"]#}
+            {#                for (let i = 0; i < posts.length; i++) {#}
+            {#                    let post = posts[i]#}
+            {#                    let time_post = new Date(post["date"])#}
+            {#                    let time_before = time2str(time_post)#}
+            {##}
+            {#                    let html_temp = `<div class="box" id="${post["_id"]}">#}
+            {#                                        <article class="media">#}
+            {#                                            <div class="media-left">#}
+            {#                                                <a class="image is-64x64" href="/user/${post['username']}">#}
+            {#                                                    <img class="is-rounded" src="/static/${post['profile_pic_real']}"#}
+            {#                                                         alt="Image">#}
+            {#                                                </a>#}
+            {#                                            </div>#}
+            {#                                            <div class="media-content">#}
+            {#                                                <div class="content">#}
+            {#                                                    <p>#}
+            {#                                                        <strong>${post['profile_name']}</strong> <small>@${post['username']}</small> <small>${time_before}</small>#}
+            {#                                                        <br>#}
+            {#                                                        ${post['comment']}#}
+            {#                                                    </p>#}
+            {#                                                </div>#}
+            {#                                                <nav class="level is-mobile">#}
+            {#                                                    <div class="level-left">#}
+            {#                                                        <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post['_id']}', 'heart')">#}
+            {#                                                            <span class="icon is-small"><i class="fa ${class_heart}"#}
+            {#                                                                                           aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>#}
+            {#                                                        </a>#}
+            {#                                                    </div>#}
+            {##}
+            {#                                                </nav>#}
+            {#                                            </div>#}
+            {#                                        </article>#}
+            {#                                    </div>`#}
+            {#                    $("#post-box").append(html_temp)#}
+            {#                }#}
+            {#            }#}
+            {#        }#}
+            {#    })#}
+            {#}#}
 
 
 
@@ -417,57 +422,60 @@
     </head>
     <body>
     {#네비게이션바#}
-<nav class="navbar is-transparent">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-            <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox"
-                 width="112" height="28">
-        </a>
-        <div class="navbar-burger" data-target="navbarExampleTransparentExample">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-
-    <div id="navbarExampleTransparentExample" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" id="logout" onclick="logoutBtn()" href="/login">
-                로그아웃
-            </a>
-            <a class="navbar-item" id="login" onclick="loginBtn()" href="/login">
-                로그인
-            </a>
-            <a class="navbar-item is-32x32" id="logout-my" href="/user/{{ user_info.username }}">
-                마이페이지
-            </a>
-            <a class="navbar-item is-32x32" id="loin-my" onclick="loginMy()" href="/login">
-                마이페이지
-            </a>
-        </div>
-
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="field is-grouped">
-                    <p class="control">
-                        <a class="bd-tw-button button" href="/" onclick="open_box()">
-                          <span class="icon"><i class="fa-solid fa-shirt"></i></span>
-                            <span>STYLE</span>
-                        </a>
-                    </p>
-                    <p class="control" onclick='$("#modal-post").addClass("is-active")'>
-                        <a class="button is-primary"
-                           href="#">
-                  <span class="icon">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                  </span>
-                        </a>
-                    </p>
+     <header>
+        <nav class="navbar is-transparent is-fixed-top">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="../static/로고.png" alt="Bulma: a modern CSS framework based on Flexbox"
+                         width="112" height="28">
+                </a>
+                <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
             </div>
-        </div>
-    </div>
-</nav>
+
+            <div id="navbarExampleTransparentExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" id="logout" onclick="logoutBtn()" href="/login">
+                        로그아웃
+                    </a>
+                    <a class="navbar-item" id="login" onclick="loginBtn()" href="/login">
+                        로그인
+                    </a>
+                    <a class="navbar-item is-32x32" id="logout-my" href="/user/{{ user_info.username }}">
+                        마이페이지
+                    </a>
+                    <a class="navbar-item is-32x32" id="loin-my" onclick="loginMy()" href="/login">
+                        마이페이지
+                    </a>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a class="bd-tw-button button" onclick="open_box()">
+                                    <span class="icon"><i class="fa-solid fa-shirt"></i></span>
+                                    <span>STYLE</span>
+                                </a>
+                            </p>
+                            <p class="control" onclick='$("#modal-post").addClass("is-active")'>
+                                <a class="button is-primary"
+                                   href="#">
+                          <span class="icon">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
     <section class="hero is-white">
         <div class="hero-body" style="padding-bottom:1rem;margin:auto;min-width: 400px">
             <article class="media">

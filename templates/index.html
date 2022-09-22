@@ -32,11 +32,20 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0cb8f54fdc.js" crossorigin="anonymous"></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <style>
+
+        .hero {
+            text-align: center;
+            background-color: #f3f3f3;
+            font-family: 'Nanum Pen Script', cursive;
+        }
+
         .mycards {
             margin: 20px auto 0px auto;
             width: 95%;
@@ -77,65 +86,66 @@
 <body>
 
     {#네비게이션바#}
-    <nav class="navbar is-transparent">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox"
-                     width="112" height="28">
-            </a>
-            <div class="navbar-burger" data-target="navbarExampleTransparentExample">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <div id="navbarExampleTransparentExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" id="logout" onclick="logoutBtn()" href="/login">
-                    로그아웃
+    <header>
+        <nav class="navbar is-transparent is-fixed-top">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="../static/로고.png" alt="Bulma: a modern CSS framework based on Flexbox"
+                         width="112" height="28">
                 </a>
-                <a class="navbar-item" id="login" onclick="loginBtn()" href="/login">
-                    로그인
-                </a>
-                <a class="navbar-item is-32x32" id="logout-my" href="/user/{{ user_info.username }}">
-                    마이페이지
-                </a>
-                <a class="navbar-item is-32x32" id="loin-my" onclick="loginMy()" href="/login">
-                    마이페이지
-                </a>
+                <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
 
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="field is-grouped">
-                        <p class="control">
-                            <a class="bd-tw-button button" onclick="open_box()">
-                                <span class="icon"><i class="fa-solid fa-shirt"></i></span>
-                                <span>STYLE</span>
-                            </a>
-                        </p>
-                        <p class="control" onclick='$("#modal-post").addClass("is-active")'>
-                            <a class="button is-primary"
-                               href="#">
+            <div id="navbarExampleTransparentExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" id="logout" onclick="logoutBtn()" href="/login">
+                        로그아웃
+                    </a>
+                    <a class="navbar-item" id="login" onclick="loginBtn()" href="/login">
+                        로그인
+                    </a>
+                    <a class="navbar-item is-32x32" id="logout-my" href="/user/{{ user_info.username }}">
+                        마이페이지
+                    </a>
+                    <a class="navbar-item is-32x32" id="loin-my" onclick="loginMy()" href="/login">
+                        마이페이지
+                    </a>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a class="bd-tw-button button" onclick="open_box()">
+                                    <span class="icon"><i class="fa-solid fa-shirt"></i></span>
+                                    <span>STYLE</span>
+                                </a>
+                            </p>
+                            <p class="control" onclick='$("#modal-post").addClass("is-active")'>
+                                <a class="button is-primary"
+                                   href="#">
                           <span class="icon">
                             <i class="fa-regular fa-pen-to-square"></i>
                           </span>
-                            </a>
-                        </p>
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
+
     <!--타이틀-->
-    <section class="hero is-medium is-link">
+    <section class="hero is-small">
         <div class="hero-body">
             <p class="title">
-                ROOM.D
-            </p>
-            <p class="subtitle">
-                방구석 디자이너
+                <img src="../static/배너.jpg" alt="Bulma: a modern CSS framework based on Flexbox"
+                     width="900px" height="200px">
             </p>
         </div>
     </section>
