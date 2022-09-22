@@ -1,0 +1,437 @@
+    <!doctype html>
+    <html lang="en">
+    <head>
+
+        <!-- Webpage Title -->
+        <title>{{ user_info.name }} | SWEETER</title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <meta property="og:title" content="스위터 - 세상을 달달하게"/>
+        <meta property="og:description" content="mini project for Web Plus"/>
+        <meta property="og:image" content="{{ url_for('static', filename='ogimg.png') }}"/>
+
+
+        <!-- Bulma CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <!-- Font Awesome CSS -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/0cb8f54fdc.js" crossorigin="anonymous"></script>
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+        <style>
+            .mycards {
+                margin: 20px auto 0px auto;
+                width: 95%;
+                max-width: 1200px;
+
+
+            }
+
+            .card {
+                width: calc(50% - 4px);
+                margin: 50px auto;
+                border: 1px solid white;
+                box-shadow: none;
+            }
+
+            .card > img {
+                border-radius: 15px;
+
+            }
+
+            #cards-box {
+
+                word-break: keep-all;
+            }
+
+            .card-body {
+                padding: 15px 4px 30px;
+                display: flex;
+                flex-direction: row;
+                align-content: center;
+                justify-content: space-between;
+            }
+
+            .media1 {
+                margin-bottom: 30px;
+                display: flex;
+                text-align: inherit;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: center;
+                align-content: center;
+            }
+            .media-left1 {
+                margin: auto 10px;
+            }
+
+            .control1 {
+                width: 85%;
+                display: flex;
+                clear: both;
+                font-size: 1rem;
+                position: relative;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                margin-left: 40px;
+            }
+
+            .textarea1:not([rows]) {
+                max-height: 40em;
+                min-height: 3em;
+            }
+
+            .textarea1 {
+                margin-top: 0px;
+                display: block;
+                max-width: 100%;
+                min-width: 100%;
+                padding: calc(0.75em - 1px);
+                resize: vertical;
+            }
+
+            {#.input, .textarea {#}
+            {#    width: 4.5em;#}
+            {#}#}
+
+            .card > img {
+                width: 100%;
+                height: auto;
+                align-items: center;
+                max-width: 100%;
+            }
+
+
+
+
+
+        </style>
+
+        <script>
+
+            $(document).ready(function () {
+                get_posts('{{ user_info.username }}');
+                close_box()
+            })
+
+
+
+
+
+            function sign_out() {
+                $.removeCookie('mytoken', {path: '/'});
+                alert('로그아웃!')
+                window.location.href = "/login"
+            }
+
+            {#프로필 수정#}
+            function update_profile() {
+                let name = $('#input-name').val()
+                let file = $('#input-pic')[0].files[0]
+                let about = $("#textarea-about").val()
+                let form_data = new FormData()
+                form_data.append("file_give", file)
+                form_data.append("name_give", name)
+                form_data.append("about_give", about)
+                console.log(name, file, about, form_data)
+
+                $.ajax({
+                    type: "POST",
+                    url: "/update_profile",
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert(response["msg"])
+                            window.location.reload()
+
+                        }
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body>
+    {#네비게이션바#}
+     <header>
+        <nav class="navbar is-transparent is-fixed-top">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="../static/로고.png" alt="Bulma: a modern CSS framework based on Flexbox"
+                         width="112" height="28">
+                </a>
+                <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div id="navbarExampleTransparentExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" id="logout" onclick="logoutBtn()" href="/login">
+                        로그아웃
+                    </a>
+                    <a class="navbar-item" id="login" onclick="loginBtn()" href="/login">
+                        로그인
+                    </a>
+                    <a class="navbar-item is-32x32" id="logout-my" href="/user/{{ user_info.username }}">
+                        마이페이지
+                    </a>
+                    <a class="navbar-item is-32x32" id="loin-my" onclick="loginMy()" href="/login">
+                        마이페이지
+                    </a>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a class="bd-tw-button button" onclick="open_box()">
+                                    <span class="icon"><i class="fa-solid fa-shirt"></i></span>
+                                    <span>STYLE</span>
+                                </a>
+                            </p>
+                            <p class="control" onclick='$("#modal-post").addClass("is-active")'>
+                                <a class="button is-primary"
+                                   href="#">
+                          <span class="icon">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero is-white">
+        <div class="hero-body" style="padding-bottom:1rem;margin:auto;min-width: 400px">
+            <article class="media">
+
+                <figure class="media-left" style="align-self: center">
+                    <a class="image is-96x96" href="#">
+                        <img class="is-rounded" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">
+                    </a>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>{{ user_info.profile_name }}</strong> <small>@{{ user_info.username }}</small>
+                            <br>
+                            {{ user_info.profile_info }}
+                        </p>
+                    </div>
+
+                </div>
+            </article>
+            {% if status %}
+                <nav id="btns-me" class="level is-mobile" style="margin-top:2rem">
+                    <a class="button level-item has-text-centered is-sparta" aria-label="edit"
+                       onclick='$("#modal-edit").addClass("is-active")'>
+                        프로필 수정&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
+                                                                               aria-hidden="true"></i></span>
+                    </a>
+
+                    <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
+                       onclick="sign_out()">
+                        로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
+                                                                             aria-hidden="true"></i></span>
+                    </a>
+                </nav>
+                <div class="modal" id="modal-edit">
+                <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="field">
+                                    <label class="label" for="input-name">이름</label>
+
+                                    <p class="control">
+
+                                        <input id="input-name" class="input"
+                                               placeholder="홍길동" value="{{ user_info.profile_name }}">
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="input-pic">프로필 사진</label>
+
+                                    <div class="control is-expanded">
+                                        <img id="preview1"/>
+                                        <div class="file has-name">
+                                            <label class="file-label" style="width:100%">
+                                                <input id="input-pic" class="file-input" type="file"
+                                                       name="resume" onchange="readURL(this)">
+                                                <span class="file-cta"><span class="file-icon"><i
+                                                        class="fa fa-upload"></i></span>
+                                <span class="file-label">파일 선택</span>
+                            </span>
+                                                <span id="file-name" class="file-name"
+                                                      style="width:100%;max-width:100%">{{ user_info.profile_pic }}</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="textarea-about">who am i?</label>
+
+                                    <p class="control">
+
+                        <textarea id="textarea-about" class="textarea"
+                                  placeholder="상태메세지">{{ user_info.profile_info }}</textarea>
+                                    </p>
+                                </div>
+                                <nav class="level is-mobile">
+                                    <div class="level-left">
+
+                                    </div>
+                                    <div class="level-right">
+                                        <div class="level-item">
+                                            <a class="button is-sparta" onclick="update_profile()">업데이트</a>
+                                        </div>
+                                        <div class="level-item">
+                                            <a class="button is-sparta is-outlined"
+                                               onclick='$("#modal-edit").removeClass("is-active")'>취소</a>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"
+                        onclick='$("#modal-edit").removeClass("is-active")'></button>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% if status %}
+    <section class="section">
+        <div class="modal" id="modal-post">
+            <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
+            <div class="modal-content">
+                <div class="box">
+                    <img id="preview"/>
+                    <div class="file-upload">
+                        <label class="file-label">
+                            <input id="file-up" class="file-input" type="file" name="resume" onchange="readURL(this)">
+                            <span class="file-cta">
+                                      <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                      </span>
+                                      <span class="file-label">
+                                        사진선택
+                                      </span>
+                                    </span>
+                        </label>
+                    </div>
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="field">
+                                <p class="control">
+                                      <textarea id="textarea-post" class="textarea"
+                                                placeholder="당신의 스타일을 공유하세요!"></textarea>
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a class="button is-sparta" onclick="post()">포스팅하기</a>
+                                    </div>
+                                    <div class="level-item">
+                                        <a class="button is-sparta is-outlined"
+                                           onclick='$("#modal-post").removeClass("is-active")'>취소</a>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"
+                    onclick='$("#modal-post").removeClass("is-active")'></button>
+        </div>
+
+    </section>
+    {% endif %}
+
+    <div class="mycards">
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
+            <div class="col">
+
+            </div>
+            <article class="media1" id="reply_box">
+                <figure class="media-left1" style="align-self: center">
+                    <a class="image is-32x32" href="/user/{{ user_info.username }}">
+                    <img class="is-rounded" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">
+                    </a>
+                </figure>
+                <div class="media-content1">
+                     <div class="field1">
+                         <p class="control1">
+                         <textarea id="textarea-post1" class="textarea1" placeholder="당신의 스타일을 공유하세요!"></textarea>
+                         <button class="button is-white" id="reply_send" onclick="replyPost()">White</button>
+                         </p>
+                     </div>
+                 </div>
+             </article>
+            <section class="section">
+                        <div id="post-box" class="container">
+                            <div class="box">
+                                <article class="media">
+                                    <div class="media-left">
+                                        <a class="image is-64x64" href="#">
+                                            <img class="is-rounded"
+                                                 src={{ url_for("static", filename="profile_pics/profile_placeholder.png") }} alt="Image">
+                                        </a>
+                                    </div>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p>
+                                                <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
+                                                <br>
+                                                글을 적는 칸
+                                            </p>
+                                        </div>
+                                        <nav class="level is-mobile">
+                                            <div class="level-left">
+                                                <a class="level-item is-sparta" aria-label="heart"
+                                                   onclick="toggle_like('', 'heart')">
+                                                    <span class="icon is-small"><i class="fa fa-heart"
+                                                                                   aria-hidden="true"></i></span>&nbsp;<span
+                                                        class="like-num">2.7k</span>
+                                                </a>
+                                            </div>
+
+                                        </nav>
+                                    </div>
+                                </article>
+                            </div>
+
+                        </div>
+                    </section>
+        </div>
+    </div>
+
+    </body>
+    </html>
