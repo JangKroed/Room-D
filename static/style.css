@@ -1,5 +1,24 @@
+
 body {
+    padding-top: 75px;
     min-height: 100vh;
+}
+
+.button.is-primary {
+    background-color: #000000;
+    border-color: transparent;
+    color: #fff;
+}
+.button.is-primary:hover {
+    background-color: #000000;
+    border-color: transparent;
+    color: #fff;
+}
+
+.hero.is-link {
+    text-align: center;
+    background-color: #3273dc;
+    color: #fff;
 }
 
 .section {
@@ -9,25 +28,83 @@ body {
 }
 
 .is-sparta {
-    color: #000000 !important;
+    color: crimson;
+}
+.is-sparta:hover {
+    color: #d73b3b;
 }
 
 .button.is-sparta {
     background-color: #000000;
     border-color: transparent;
-    color: #ffffff !important;
+    color: #d7d5d5 !important;
+}
+.button.is-sparta:hover {
+    background-color: #232222;
 }
 
 .button.is-sparta.is-outlined {
     background-color: transparent;
-    border-color: #000000;
+    border-color: #b0b0b0;
     color: #000000 !important;
+}
+
+.button.is-sparta.is-outlined:hover {
+    border-color: #000000;
 }
 
 .modal-content {
     width: 600px;
     max-width: 80%;
 }
+
+
+
+.box {
+    text-align: center;
+}
+
+.file-cta {
+    background-color: #0095f6;
+    color: #ffffff;
+    border-color: #0095f6;
+}
+
+.file-label:hover .file-cta {
+    background-color: #4cb3f7;
+    color: #ffffff;
+    border-color: #4cb3f7;
+}
+
+#preview {
+            margin: 20px;
+            width: 50%;
+
+        }
+#preview1 {
+            margin: 20px;
+            width: 50%;
+            height: 50%;
+        }
+
+.textarea {
+    margin-top: 20px;
+    display: block;
+    max-width: 100%;
+    min-width: 100%;
+    padding: calc(0.75em - 1px);
+    resize: vertical;
+}
+
+.file-label {
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    flex-direction: row;
+}
+
 
 input::-webkit-calendar-picker-indicator {
     display: none;
