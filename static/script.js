@@ -190,10 +190,12 @@ function toggle_like(post_id, type) {
                                                             <div class="media-content">
                                                                 <div class="content">
                                                                     <p>
-                                                                        <strong>${post['profile_name']}</strong> <small>@${post['username']}</small> <small>${time_before}</small>
+                                                                        <strong>${post['profile_name']}</strong>
+                                                                        <small>@${post['username']}</small>
                                                                         <br>
-                                                                        ${post['comment']}
+                                                                        <small>${time_before}</small>
                                                                     </p>
+                                                                    ${post['comment']}
                                                                 </div>
                                                                 <nav class="level is-mobile">
                                                                     <div class="level-left">

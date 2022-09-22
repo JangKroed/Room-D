@@ -79,7 +79,7 @@ body {
 #preview {
             margin: 20px;
             width: 50%;
-            height: 50%;
+
         }
 #preview1 {
             margin: 20px;
@@ -88,7 +88,7 @@ body {
         }
 
 .textarea {
-    margin-top: 40px;
+    margin-top: 20px;
     display: block;
     max-width: 100%;
     min-width: 100%;

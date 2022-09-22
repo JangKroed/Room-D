@@ -1,3 +1,4 @@
+
 from pymongo import MongoClient
 import jwt
 import datetime
@@ -72,13 +73,13 @@ def sign_in():
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     result = db.users.find_one({'username': username_receive, 'password': pw_hash})
 
+
     if result is not None:
         payload = {
             'id': username_receive,
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
     else:
@@ -193,47 +194,47 @@ def get_posts():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
-# 리플 포스팅 하기
-@app.route('/reply', methods=['POST'])
-def rlplyPosting():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.reply.find_one({"username": payload["id"]})
-        comment_receive = request.form["comment_give"]
-        date_receive = request.form["date_give"]
-
-        doc = {
-            "username": user_info["username"],
-            "profile_name": user_info["profile_name"],
-            "profile_pic_real": user_info["profile_pic_real"],
-            "comment": comment_receive,
-            "date": date_receive,
-        }
-        db.reply.insert_one(doc)
-        return jsonify({"result": "success", 'msg': '포스팅 성공'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
-
-# 리플 가져오기
-@app.route("/get_replies", methods=['GET'])
-def get_replies():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        username_receive = request.args.get("username_give")
-        if username_receive=="":
-            posts = list(db.reply.find({}).sort("date", -1).limit(20))
-        else:
-            posts = list(db.reply.find({"username":username_receive}).sort("date", -1).limit(20))
-        for post in posts:
-            post["_id"] = str(post["_id"])
-            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
-            post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['id']}))
-
-        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+# # 리플 포스팅 하기
+# @app.route('/reply', methods=['POST'])
+# def rlplyPosting():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         user_info = db.reply.find_one({"username": payload["id"]})
+#         comment_receive = request.form["comment_give"]
+#         date_receive = request.form["date_give"]
+#
+#         doc = {
+#             "username": user_info["username"],
+#             "profile_name": user_info["profile_name"],
+#             "profile_pic_real": user_info["profile_pic_real"],
+#             "comment": comment_receive,
+#             "date": date_receive,
+#         }
+#         db.reply.insert_one(doc)
+#         return jsonify({"result": "success", 'msg': '포스팅 성공'})
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
+#
+# # 리플 가져오기
+# @app.route("/get_replies", methods=['GET'])
+# def get_replies():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         username_receive = request.args.get("username_give")
+#         if username_receive=="":
+#             posts = list(db.reply.find({}).sort("date", -1).limit(20))
+#         else:
+#             posts = list(db.reply.find({"username":username_receive}).sort("date", -1).limit(20))
+#         for post in posts:
+#             post["_id"] = str(post["_id"])
+#             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+#             post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['id']}))
+#
+#         return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
 
 
 

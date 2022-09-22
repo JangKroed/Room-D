@@ -10,9 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <meta property="og:title" content="스위터 - 세상을 달달하게"/>
-    <meta property="og:description" content="mini project for Web Plus"/>
-    <meta property="og:image" content="{{ url_for('static', filename='ogimg.png') }}"/>
+    <meta property="og:title" content="Room.D - 오늘 뭐 입지?"/>
+    <meta property="og:description" content="오늘 뭐 입을지 고민 될 땐 - Room.D"/>
+    <meta property="og:image" content="{{ url_for('static', filename='로고.png') }}"/>
 
     <!-- bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -160,21 +160,20 @@
                         <label class="file-label">
                             <input id="file-up" class="file-input" type="file" name="resume" onchange="readURL(this)">
                             <span class="file-cta">
-                                          <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
-                                          </span>
-                                          <span class="file-label">
-                                            사진선택
-                                          </span>
-                                        </span>
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                 사진선택
+                                </span>
+                            </span>
                         </label>
                     </div>
                     <article class="media">
                         <div class="media-content">
                             <div class="field">
                                 <p class="control">
-                                          <textarea id="textarea-post" class="textarea"
-                                                    placeholder="무슨 생각을 하고 계신가요?"></textarea>
+                                    <textarea id="textarea-post" class="textarea" placeholder="당신의 스타일을 공유하세요!"></textarea>
                                 </p>
                             </div>
                             <nav class="level is-mobile">
